@@ -13,29 +13,46 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.ItemListener {
+    private RecyclerView recyclerView;
+    private Spinner boardSizeSpinner;
+    private Spinner maxMovesSpinner;
+    private int boardSize = BOARD_SIZE_OPTIONS[DEFAULT_BOARD_SIZE_SPINNER_SELECTION];
+    private int maxMoves = MAX_MOVES_OPTIONS[DEFAULT_MAX_MOVES_SPINNER_SELECTION];
 
+    private ArrayAdapter<Integer> boardSizeOptionsAdapter;
+    private ArrayAdapter<Integer> maxMovesAdapter;
 
-    RecyclerView recyclerView;
-    Spinner boardSizeSpinner;
-    Spinner maxMovesSpinner;
-
-    Integer[] boardSizeOptions = new Integer[]{6,7,8,9,10,11,12,13,14,15,16};
-    ArrayAdapter<Integer> boardSizeOptionsAdapter;
-
-    Integer[] maxMovesOptions = new Integer[]{2,3,4,5,6,7,8,9,10};
-    ArrayAdapter<Integer> maxMovesAdapter;
+    private static final Integer[] BOARD_SIZE_OPTIONS = new Integer[]{6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+    private static final Integer[] MAX_MOVES_OPTIONS = new Integer[]{2, 3, 4, 5, 6, 7, 8, 9, 10};
+    private static final int DEFAULT_BOARD_SIZE_SPINNER_SELECTION = 2;
+    private static final int DEFAULT_MAX_MOVES_SPINNER_SELECTION = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setUpUi();
+    }
 
+    @Override
+    public void onItemClick(Pair<Integer, Integer> item) {
 
-        boardSizeSpinner = (Spinner)  findViewById(R.id.boardSizeSpinner);
-        boardSizeOptionsAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, boardSizeOptions);
+        Toast.makeText(getApplicationContext(), item.toString() + " is clicked", Toast.LENGTH_SHORT).show();
+    }
+
+    private void setUpUi() {
+        setUpBoardSizeSpinner();
+        setUpMaxMovesSpinner();
+        setUpBoardView();
+    }
+
+    private void setUpBoardSizeSpinner() {
+        boardSizeSpinner = findViewById(R.id.boardSizeSpinner);
+        boardSizeOptionsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, BOARD_SIZE_OPTIONS);
         boardSizeOptionsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         boardSizeSpinner.setAdapter(boardSizeOptionsAdapter);
-        boardSizeSpinner.setSelection(2);
+        boardSizeSpinner.setSelection(DEFAULT_BOARD_SIZE_SPINNER_SELECTION);
+        boardSize = BOARD_SIZE_OPTIONS[DEFAULT_BOARD_SIZE_SPINNER_SELECTION];
         boardSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -48,13 +65,15 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
                 // Do nothing
             }
         });
+    }
 
-
-        maxMovesSpinner = (Spinner)  findViewById(R.id.maxMovesSpinner);
-        maxMovesAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, maxMovesOptions);
+    private void setUpMaxMovesSpinner() {
+        maxMovesSpinner = findViewById(R.id.maxMovesSpinner);
+        maxMovesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, MAX_MOVES_OPTIONS);
         maxMovesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         maxMovesSpinner.setAdapter(maxMovesAdapter);
-        maxMovesSpinner.setSelection(1);
+        maxMovesSpinner.setSelection(DEFAULT_MAX_MOVES_SPINNER_SELECTION);
+        maxMoves = MAX_MOVES_OPTIONS[DEFAULT_MAX_MOVES_SPINNER_SELECTION];
         maxMovesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -67,38 +86,27 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
                 // Do nothing
             }
         });
+    }
 
-
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, 5, this);
+    private void setUpBoardView() {
+        recyclerView = findViewById(R.id.recyclerView);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, boardSize, this);
         recyclerView.setAdapter(adapter);
 
-
-        /**
-         Simple GridLayoutManager that spans two columns
-         **/
-        GridLayoutManager manager = new GridLayoutManager(this, 5, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager manager = new GridLayoutManager(this, boardSize, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
     }
 
-    @Override
-    public void onItemClick(Pair<Integer,Integer> item) {
-
-        Toast.makeText(getApplicationContext(), item.toString() + " is clicked", Toast.LENGTH_SHORT).show();
-
-    }
-
-
-    private void setBoardSizeTo(int size){
+    private void setBoardSizeTo(int size) {
+        boardSize = size;
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, size, this);
         recyclerView.setAdapter(adapter);
         GridLayoutManager manager = new GridLayoutManager(this, size, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
     }
 
-    private void setMaxMovesTo(int maxMoves){
-
+    private void setMaxMovesTo(int maxMoves) {
+        this.maxMoves = maxMoves;
     }
 
 
