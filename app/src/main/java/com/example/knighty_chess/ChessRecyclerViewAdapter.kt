@@ -12,6 +12,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
+private const val TAG = "KnightlyChessAdapter"
+
 class ChessRecyclerViewAdapter(private val mContext: Context, boardDimension: Int, private val mListener: ChessTileSelectionListener) : RecyclerView.Adapter<ChessRecyclerViewAdapter.ViewHolder>() {
     private val data: ArrayList<ChessTileInfo> = ArrayList()
     private var source = -1
@@ -88,7 +90,7 @@ class ChessRecyclerViewAdapter(private val mContext: Context, boardDimension: In
         }
 
         override fun onClick(view: View) {
-            Log.e("xaxa", "Adapter position = $adapterPosition")
+            Log.e(TAG, "Adapter position = $adapterPosition")
             handleClickInternally(chessTileInfoItem, adapterPosition)
             notifyItemChanged(adapterPosition)
 

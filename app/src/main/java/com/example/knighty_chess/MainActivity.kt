@@ -1,5 +1,6 @@
 package com.example.knighty_chess
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,6 +16,8 @@ import com.example.knighty_chess.ChessRecyclerViewAdapter.ChessTileSelectionList
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+
+private const val TAG = "KnightlyChessMainAct"
 
 class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
     private lateinit var recyclerView: RecyclerView
@@ -133,7 +136,7 @@ class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
     }
 
     private fun startMoveCalculation() {
-        Log.i("xaxa","Starting move calculation")
+        Log.i(TAG,"Starting move calculation")
         disposable = KnightMoveHelper.getCalculateMovesObservable(startPoint!!, targetPoint!!, boardSize, maxMoves)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -143,20 +146,37 @@ class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
     }
 
     private fun onMoveCalculationResult(moves:Set<List<Pair<Int, Int>>>){
-        Log.i("xaxa","Move calculation finished")
+        Log.i(TAG,"Move calculation finished")
         if (moves.isEmpty()){
             // Handle no moves
-            Log.w("xaxa","No moves found")
+            Log.w(TAG,"No moves found")
+            Toast.makeText(this,"No moves found.",Toast.LENGTH_LONG).show()
         }
         else{
             // Handle moves result
-            Log.i("xaxa","Moves found (${moves.size})")
-            Log.i("xaxa","Moves -> (${moves.toString()})")
+            val numberOfResults = moves.size
+
+            Log.i(TAG,"Moves found (${numberOfResults})")
+            Log.i(TAG,"Moves -> (${moves.toString()})")
+
+            val intent  = Intent(this,ResultsActivity::class.java)
+
+            var res:Results
+
+            res = if (numberOfResults > 500) {
+                Log.i(TAG,"Too many results. Keeping only the first 500")
+                Results(moves.take(500).toSet())
+            }else{
+                Results(moves)
+            }
+
+            intent.putExtra("results", Results.serialize(res))
+            startActivity(intent)
         }
     }
 
     private fun onMoveCalculationCancelled(){
-
+        Log.w(TAG,"Move calculation canceled")
     }
 
 }

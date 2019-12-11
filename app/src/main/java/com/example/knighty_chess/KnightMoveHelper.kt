@@ -2,7 +2,8 @@ package com.example.knighty_chess
 
 import android.util.Log
 import io.reactivex.Single
-import java.util.concurrent.Callable
+
+private const val TAG = "KnightlyChessMoveHelper"
 
 object KnightMoveHelper {
 
@@ -25,7 +26,6 @@ object KnightMoveHelper {
         this.boardSize = boardSize
         this.maximumNumberOfMoves = maximumNumberOfMoves
         return Single.fromCallable {
-            Log.i("xaxa","In callable")
             paths.clear()
             val emptyListOfMoves = listOf<Pair<Int,Int>>()
             visit(startingPoint,targetPoint, emptyListOfMoves,maximumNumberOfMoves)
