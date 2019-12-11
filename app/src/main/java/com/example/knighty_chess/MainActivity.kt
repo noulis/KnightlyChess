@@ -158,6 +158,7 @@ class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
 
             Log.i(TAG,"Moves found (${numberOfResults})")
             Log.i(TAG,"Moves -> (${moves.toString()})")
+            Log.i(TAG,"Moves sorted -> (${moves.sortedBy {it.size }.toString()})")
 
             val intent  = Intent(this,ResultsActivity::class.java)
 
@@ -165,9 +166,10 @@ class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
 
             res = if (numberOfResults > 500) {
                 Log.i(TAG,"Too many results. Keeping only the first 500")
-                Results(moves.take(500).toSet())
-            }else{
-                Results(moves)
+                Results(moves.sortedBy {it.size}.take(500).toSet())
+
+            } else{
+                Results(moves.sortedBy{it.size}.toSet())
             }
 
             intent.putExtra("results", Results.serialize(res))

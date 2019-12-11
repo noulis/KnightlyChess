@@ -90,7 +90,6 @@ class ChessRecyclerViewAdapter(private val mContext: Context, boardDimension: In
         }
 
         override fun onClick(view: View) {
-            Log.e(TAG, "Adapter position = $adapterPosition")
             handleClickInternally(chessTileInfoItem, adapterPosition)
             notifyItemChanged(adapterPosition)
 
