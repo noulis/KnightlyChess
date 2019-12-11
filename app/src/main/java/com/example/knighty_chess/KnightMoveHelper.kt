@@ -80,4 +80,5 @@ object KnightMoveHelper {
     private fun reachedTarget(startingPoint:Pair<Int,Int>, targetPoint:Pair<Int,Int>):Boolean{
         return (startingPoint.first == targetPoint.first && startingPoint.second ==targetPoint.second)
     }
+
 }
