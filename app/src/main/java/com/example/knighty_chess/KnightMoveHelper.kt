@@ -1,5 +1,9 @@
 package com.example.knighty_chess
 
+import android.util.Log
+import io.reactivex.Single
+import java.util.concurrent.Callable
+
 object KnightMoveHelper {
 
     private var boardSize:Int = 7
@@ -12,13 +16,21 @@ object KnightMoveHelper {
     private const val possibleMovesNum = 8
 
 
-    public fun calculateMoves (startingPoint:Pair<Int,Int>, targetPoint:Pair<Int,Int>, boardSize:Int, maximumNumberOfMoves:Int): Set<List<Pair<Int,Int>>>{
+    /**
+     * Get a Single (Rx Java Single Observable type) responsible for calculating the moves based on the provided data
+     *
+     * Note: This is CPU intensive work so the observable must be subscribed on a thread other than the UI thread
+     */
+    public fun getCalculateMovesObservable (startingPoint:Pair<Int,Int>, targetPoint:Pair<Int,Int>, boardSize:Int, maximumNumberOfMoves:Int): Single<Set<List<Pair<Int, Int>>>> {
         this.boardSize = boardSize
         this.maximumNumberOfMoves = maximumNumberOfMoves
-        paths.clear()
-        val emptyListOfMoves = listOf<Pair<Int,Int>>()
-        visit(startingPoint,targetPoint, emptyListOfMoves,maximumNumberOfMoves)
-        return paths.toSet()
+        return Single.fromCallable {
+            Log.i("xaxa","In callable")
+            paths.clear()
+            val emptyListOfMoves = listOf<Pair<Int,Int>>()
+            visit(startingPoint,targetPoint, emptyListOfMoves,maximumNumberOfMoves)
+            paths.toSet()
+        }
     }
 
     /**

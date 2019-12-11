@@ -1,16 +1,21 @@
 package com.example.knighty_chess
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.knighty_chess.ChessRecyclerViewAdapter.ChessTileSelectionListener
 import com.example.knighty_chess.KnightMoveHelper.calculateMoves
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
     private lateinit var recyclerView: RecyclerView
@@ -18,6 +23,8 @@ class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
     private lateinit var maxMovesSpinner: Spinner
     private lateinit var boardSizeOptionsAdapter: ArrayAdapter<Int>
     private lateinit var maxMovesAdapter: ArrayAdapter<Int>
+    private lateinit var chessAdapter:ChessRecyclerViewAdapter
+    private var disposable:Disposable? = null
     private var startPoint: Pair<Int, Int>? = null
     private var targetPoint: Pair<Int, Int>? = null
     private var boardSize = BOARD_SIZE_OPTIONS[DEFAULT_BOARD_SIZE_SPINNER_SELECTION]
@@ -55,7 +62,8 @@ class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
                 setBoardSizeTo(size)
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) { // Do nothing
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Do nothing
             }
         }
     }
@@ -73,7 +81,8 @@ class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
                 setMaxMovesTo(size)
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) { // Do nothing
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Do nothing
             }
         }
     }
@@ -85,8 +94,8 @@ class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
 
     private fun setBoardSizeTo(size: Int) {
         boardSize = size
-        val adapter = ChessRecyclerViewAdapter(this, size, this)
-        recyclerView.adapter = adapter
+        chessAdapter= ChessRecyclerViewAdapter(this, size, this)
+        recyclerView.adapter = chessAdapter
         val manager = GridLayoutManager(this, size, GridLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = manager
     }
@@ -101,9 +110,54 @@ class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
 
     override fun onTargetPointSelection(targetPoint: Pair<Int, Int>) {
         this.targetPoint = targetPoint
+        onCalculateMovesButtonClicked()
+    }
+
+    private fun resetBoardInfo(){
+        chessAdapter.clearSelections()
+        startPoint = null
+        targetPoint = null
+    }
+
+    private fun onCalculateMovesButtonClicked(){
+        if (startPoint == null){
+            Toast.makeText(this,"Please set a starting point",Toast.LENGTH_LONG).show()
+            return
+        }
+
+        if (targetPoint == null){
+            Toast.makeText(this,"Please set a target point",Toast.LENGTH_LONG).show()
+            return
+        }
+
+        startMoveCalculation()
     }
 
     private fun startMoveCalculation() {
-        calculateMoves(startPoint!!, targetPoint!!, boardSize, maxMoves)
+        Log.i("xaxa","Starting move calculation")
+        disposable = KnightMoveHelper.getCalculateMovesObservable(startPoint!!, targetPoint!!, boardSize, maxMoves)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnDispose(::onMoveCalculationCancelled)
+                .subscribe(::onMoveCalculationResult)
+       // calculateMoves(startPoint!!, targetPoint!!, boardSize, maxMoves)
     }
+
+    private fun onMoveCalculationResult(moves:Set<List<Pair<Int, Int>>>){
+        Log.i("xaxa","Move calculation finished")
+        if (moves.isEmpty()){
+            // Handle no moves
+            Log.w("xaxa","No moves found")
+        }
+        else{
+            // Handle moves result
+            Log.i("xaxa","Moves found (${moves.size})")
+            Log.i("xaxa","Moves -> (${moves.toString()})")
+        }
+    }
+
+    private fun onMoveCalculationCancelled(){
+
+    }
+
 }

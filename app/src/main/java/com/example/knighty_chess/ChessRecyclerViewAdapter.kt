@@ -28,9 +28,11 @@ class ChessRecyclerViewAdapter(private val mContext: Context, boardDimension: In
     fun clearSelections() {
         source = -1
         target = -1
+
         for (tileInfo in data) {
             tileInfo.clearSelection()
         }
+
         notifyDataSetChanged()
     }
 
