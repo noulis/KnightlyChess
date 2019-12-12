@@ -1,4 +1,4 @@
-package com.example.knighty_chess
+package com.example.knighty_chess.data
 
 import com.google.gson.Gson
 

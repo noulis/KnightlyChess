@@ -1,4 +1,4 @@
-package com.example.knighty_chess
+package com.example.knighty_chess.activities.main_activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,13 +6,16 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.knighty_chess.ChessRecyclerViewAdapter.ChessTileSelectionListener
+import com.example.knighty_chess.data.KnightMoveHelper
+import com.example.knighty_chess.widgets.RoundSpinnerWithHint
+import com.example.knighty_chess.R
+import com.example.knighty_chess.activities.main_activity.ChessRecyclerViewAdapter.ChessTileSelectionListener
+import com.example.knighty_chess.activities.results_activity.ResultsActivity
+import com.example.knighty_chess.data.Results
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -21,9 +24,9 @@ private const val TAG = "KnightlyChessMainAct"
 
 class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var chessAdapter:ChessRecyclerViewAdapter
-    private lateinit var boardSizePropertyTab:PropertiesTabLayout
-    private lateinit var maxMovesPropertyTab:PropertiesTabLayout
+    private lateinit var chessAdapter: ChessRecyclerViewAdapter
+    private lateinit var boardSizePropertyTab: RoundSpinnerWithHint
+    private lateinit var maxMovesPropertyTab: RoundSpinnerWithHint
 
     private var disposable:Disposable? = null
     private var startPoint: Pair<Int, Int>? = null
@@ -154,16 +157,16 @@ class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
             Log.i(TAG,"Moves -> (${moves.toString()})")
             Log.i(TAG,"Moves sorted -> (${moves.sortedBy {it.size }.toString()})")
 
-            val intent  = Intent(this,ResultsActivity::class.java)
+            val intent  = Intent(this, ResultsActivity::class.java)
 
-            var res:Results
+            var res: Results
 
             res = if (numberOfResults > 500) {
                 Log.i(TAG,"Too many results. Keeping only the first 500")
-                Results(moves.sortedBy {it.size}.take(500).toSet())
+                Results(moves.sortedBy { it.size }.take(500).toSet())
 
             } else{
-                Results(moves.sortedBy{it.size}.toSet())
+                Results(moves.sortedBy { it.size }.toSet())
             }
 
             intent.putExtra("results", Results.serialize(res))

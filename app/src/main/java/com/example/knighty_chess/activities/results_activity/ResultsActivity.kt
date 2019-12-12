@@ -1,10 +1,12 @@
-package com.example.knighty_chess
+package com.example.knighty_chess.activities.results_activity
 
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.knighty_chess.R
+import com.example.knighty_chess.data.Results
 
 private const val TAG = "KnightlyChessResAct"
 

@@ -1,4 +1,4 @@
-package com.example.knighty_chess
+package com.example.knighty_chess.activities.main_activity
 
 class ChessTileInfo (val x: Int, val y: Int) {
     var isSource = false

@@ -1,6 +1,5 @@
-package com.example.knighty_chess
+package com.example.knighty_chess.data
 
-import android.util.Log
 import io.reactivex.Single
 
 private const val TAG = "KnightlyChessMoveHelper"
@@ -23,12 +22,12 @@ object KnightMoveHelper {
      * Note: This is CPU intensive work so the observable must be subscribed on a thread other than the UI thread
      */
     public fun getCalculateMovesObservable (startingPoint:Pair<Int,Int>, targetPoint:Pair<Int,Int>, boardSize:Int, maximumNumberOfMoves:Int): Single<Set<List<Pair<Int, Int>>>> {
-        this.boardSize = boardSize
-        this.maximumNumberOfMoves = maximumNumberOfMoves
+        KnightMoveHelper.boardSize = boardSize
+        KnightMoveHelper.maximumNumberOfMoves = maximumNumberOfMoves
         return Single.fromCallable {
             paths.clear()
             val emptyListOfMoves = listOf<Pair<Int,Int>>()
-            visit(startingPoint,targetPoint, emptyListOfMoves,maximumNumberOfMoves)
+            visit(startingPoint, targetPoint, emptyListOfMoves, maximumNumberOfMoves)
             paths.toSet()
         }
     }
@@ -56,7 +55,7 @@ object KnightMoveHelper {
         pastMovesListNew.addAll(pastMovesList)
         pastMovesListNew.add(startingPoint)
 
-        if (reachedTarget(startingPoint,targetPoint)){
+        if (reachedTarget(startingPoint, targetPoint)){
             paths.add(pastMovesListNew)
             return
 
@@ -68,8 +67,8 @@ object KnightMoveHelper {
 
         // Call the function recursively for all possible moves
         for (i in (0 until possibleMovesNum)){
-            val newS = Pair(startingPoint.first+ xAxisMoves[i], startingPoint.second+yAxisMoves[i])
-            visit(newS, targetPoint, pastMovesListNew.toList(), remainingMoves-1)
+            val newS = Pair(startingPoint.first+ xAxisMoves[i], startingPoint.second+ yAxisMoves[i])
+            visit(newS, targetPoint, pastMovesListNew.toList(), remainingMoves - 1)
         }
 
     }
@@ -82,7 +81,7 @@ object KnightMoveHelper {
         val x = point.first
         val y = point.second
 
-        return !(x < 0 || y< 0 || x>boardSize-1 || y>boardSize-1)
+        return !(x < 0 || y< 0 || x> boardSize -1 || y> boardSize -1)
     }
 
     /**

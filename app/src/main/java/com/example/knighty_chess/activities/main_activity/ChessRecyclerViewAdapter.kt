@@ -1,4 +1,4 @@
-package com.example.knighty_chess
+package com.example.knighty_chess.activities.main_activity
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.knighty_chess.R
 import java.util.*
 
 private const val TAG = "KnightlyChessAdapter"

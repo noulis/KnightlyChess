@@ -1,4 +1,4 @@
-package com.example.knighty_chess;
+package com.example.knighty_chess.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,7 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-public class PropertiesTabLayout extends ConstraintLayout {
+import com.example.knighty_chess.R;
+
+public class RoundSpinnerWithHint extends ConstraintLayout {
 
     private Context context;
     private OnClickListener listener;
@@ -23,20 +25,20 @@ public class PropertiesTabLayout extends ConstraintLayout {
     private Spinner spinner;
     private String defaultHintText= null;
 
-    public PropertiesTabLayout(Context context) {
+    public RoundSpinnerWithHint(Context context) {
         super(context);
         this.context = context;
         initializeViews(context);
     }
 
-    public PropertiesTabLayout(Context context, @Nullable AttributeSet attrs) {
+    public RoundSpinnerWithHint(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         initializeViews(context);
         initAttributes(context,attrs);
     }
 
-    public PropertiesTabLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public RoundSpinnerWithHint(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
         initializeViews(context);

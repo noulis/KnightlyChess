@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
-    tools:context=".MainActivity">
+    tools:context=".activities.main_activity.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <com.example.knighty_chess.PropertiesTabLayout
+    <com.example.knighty_chess.widgets.RoundSpinnerWithHint
         android:id="@+id/board_size_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
         custom:hintText="@string/board_size" />
 
 
-    <com.example.knighty_chess.PropertiesTabLayout
+    <com.example.knighty_chess.widgets.RoundSpinnerWithHint
         android:id="@+id/max_moves_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         custom:hintText="@string/max_moves" />
 
 
-    <com.example.knighty_chess.RoundButton
+    <com.example.knighty_chess.widgets.RoundButton
         android:id="@+id/clear_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.95" />
 
-    <com.example.knighty_chess.RoundButton
+    <com.example.knighty_chess.widgets.RoundButton
         android:id="@+id/count_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.example.knighty_chess;
+package com.example.knighty_chess.widgets;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -6,6 +6,8 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+
+import com.example.knighty_chess.R;
 
 public class RoundButton extends androidx.appcompat.widget.AppCompatButton {
 

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ResultsActivity"
+    tools:context=".activities.results_activity.ResultsActivity"
     android:layout_margin="8dp">
 
     <TextView

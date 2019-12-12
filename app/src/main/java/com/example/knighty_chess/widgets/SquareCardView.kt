@@ -1,4 +1,4 @@
-package com.example.knighty_chess
+package com.example.knighty_chess.widgets
 
 import android.content.Context
 import android.util.AttributeSet
