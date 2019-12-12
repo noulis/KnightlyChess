@@ -21,3 +21,7 @@ in the starting position could take to reach the ending position in a user speci
 > Note: Use of GitHub will be highly appreciated.
 
 # Outcome - Notes
+
+<img src="/screenshots/main2.jpg" height="400" alt="Screenshot"/> 
+
+You can find more screenshots [here](/screenshots)
