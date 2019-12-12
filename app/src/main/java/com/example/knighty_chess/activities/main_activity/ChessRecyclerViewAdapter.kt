@@ -67,7 +67,6 @@ class ChessRecyclerViewAdapter(private val mContext: Context, boardDimension: In
     }
 
     inner class ViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        private var textView: TextView
         private var imageView: ImageView
         private var relativeLayout: RelativeLayout
         private var chessTileInfoItem: ChessTileInfo? = null
@@ -77,9 +76,14 @@ class ChessRecyclerViewAdapter(private val mContext: Context, boardDimension: In
 
             if (chessTileInfoItem.isSource) {
                 relativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorSource))
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.start)
             } else if (chessTileInfoItem.isTarget) {
                 relativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorTarget))
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.finish2)
             } else {
+                imageView.visibility = View.INVISIBLE
                 val isBlack = (chessTileInfoItem.x + chessTileInfoItem.y) % 2 == 1
                 if (isBlack) {
                     relativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorBlack))
@@ -104,7 +108,6 @@ class ChessRecyclerViewAdapter(private val mContext: Context, boardDimension: In
 
         init {
             view.setOnClickListener(this)
-            textView = view.findViewById(R.id.textView)
             imageView = view.findViewById(R.id.imageView)
             relativeLayout = view.findViewById(R.id.relativeLayout)
         }
