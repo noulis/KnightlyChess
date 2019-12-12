@@ -44,10 +44,6 @@ object KnightMoveHelper {
      */
     private fun visit(startingPoint:Pair<Int,Int>, targetPoint:Pair<Int,Int>, pastMovesList:List<Pair<Int,Int>>, remainingMoves:Int){
 
-        if (remainingMoves ==0){
-            return
-        }
-
         if (!pointIsLegit(startingPoint)){
             return
         }
@@ -64,6 +60,10 @@ object KnightMoveHelper {
             paths.add(pastMovesListNew)
             return
 
+        }
+
+        if (remainingMoves == 0){
+            return
         }
 
         // Call the function recursively for all possible moves
