@@ -14,6 +14,11 @@ class ResultsActivity : AppCompatActivity() {
 
     private lateinit var resultsTextView: TextView
 
+    companion object {
+        public const val RESULTS_INTENT_KEY =  "results"
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_results)
@@ -24,7 +29,7 @@ class ResultsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val extras = intent.extras
-        val resultsStr = extras?.getString("results", null)
+        val resultsStr = extras?.getString(RESULTS_INTENT_KEY, null)
 
         if (extras == null || resultsStr == null) {
             resultsTextView.setText(getString(R.string.no_results))

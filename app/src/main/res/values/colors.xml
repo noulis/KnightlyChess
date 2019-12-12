@@ -7,4 +7,5 @@
     <color name="colorBlack">#000000</color>
     <color name="colorSource">#E9967A</color>
     <color name="colorTarget">#8B0000</color>
+    <color name="transparent">#80FFFFFF</color>
 </resources>
