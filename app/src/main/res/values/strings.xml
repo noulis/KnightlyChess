@@ -2,4 +2,9 @@
     <string name="app_name">Knightly Chess</string>
     <string name="results_activity_title">Results</string>
     <string name="no_results">No Results to display!</string>
+
+    <string name="board_size">Board size</string>
+    <string name="max_moves">Max Moves</string>
+    <string name="clear_board">Clear Board</string>
+    <string name="count_moves">Count Moves</string>
 </resources>

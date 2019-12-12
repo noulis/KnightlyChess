@@ -1,14 +1,13 @@
 package com.example.knighty_chess
 
 import android.content.Context
-import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
@@ -76,15 +75,15 @@ class ChessRecyclerViewAdapter(private val mContext: Context, boardDimension: In
             this.chessTileInfoItem = chessTileInfoItem
 
             if (chessTileInfoItem.isSource) {
-                relativeLayout.setBackgroundColor(Color.parseColor("#E9967A"))
+                relativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorSource))
             } else if (chessTileInfoItem.isTarget) {
-                relativeLayout.setBackgroundColor(Color.parseColor("#8B0000"))
+                relativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorTarget))
             } else {
-                val isBlack = (chessTileInfoItem.x + chessTileInfoItem.y) % 2 == 0
+                val isBlack = (chessTileInfoItem.x + chessTileInfoItem.y) % 2 == 1
                 if (isBlack) {
-                    relativeLayout.setBackgroundColor(Color.parseColor("#FFFFFF"))
+                    relativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorBlack))
                 } else {
-                    relativeLayout.setBackgroundColor(Color.parseColor("#000000"))
+                    relativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorWhite))
                 }
             }
         }

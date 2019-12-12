@@ -21,11 +21,10 @@ private const val TAG = "KnightlyChessMainAct"
 
 class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var boardSizeSpinner: Spinner
-    private lateinit var maxMovesSpinner: Spinner
-    private lateinit var boardSizeOptionsAdapter: ArrayAdapter<Int>
-    private lateinit var maxMovesAdapter: ArrayAdapter<Int>
     private lateinit var chessAdapter:ChessRecyclerViewAdapter
+    private lateinit var boardSizePropertyTab:PropertiesTabLayout
+    private lateinit var maxMovesPropertyTab:PropertiesTabLayout
+
     private var disposable:Disposable? = null
     private var startPoint: Pair<Int, Int>? = null
     private var targetPoint: Pair<Int, Int>? = null
@@ -52,13 +51,11 @@ class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
     }
 
     private fun setUpBoardSizeSpinner() {
-        boardSizeSpinner = findViewById(R.id.boardSizeSpinner)
-        boardSizeOptionsAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, BOARD_SIZE_OPTIONS)
-        boardSizeOptionsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        boardSizeSpinner.adapter = boardSizeOptionsAdapter
-        boardSizeSpinner.setSelection(DEFAULT_BOARD_SIZE_SPINNER_SELECTION)
+        boardSizePropertyTab = findViewById(R.id.board_size_tab)
+        boardSizePropertyTab.setAdapterAndSpinnerOptions(BOARD_SIZE_OPTIONS)
         boardSize = BOARD_SIZE_OPTIONS[DEFAULT_BOARD_SIZE_SPINNER_SELECTION]
-        boardSizeSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+        boardSizePropertyTab.selectedItemPosition = DEFAULT_BOARD_SIZE_SPINNER_SELECTION
+        boardSizePropertyTab.setOnItemSelectedListener(object : OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val size = parent.getItemAtPosition(position) as Int
                 setBoardSizeTo(size)
@@ -67,17 +64,14 @@ class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Do nothing
             }
-        }
+        })
     }
 
     private fun setUpMaxMovesSpinner() {
-        maxMovesSpinner = findViewById(R.id.maxMovesSpinner)
-        maxMovesAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, MAX_MOVES_OPTIONS)
-        maxMovesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        maxMovesSpinner.adapter = maxMovesAdapter
-        maxMovesSpinner.setSelection(DEFAULT_MAX_MOVES_SPINNER_SELECTION)
-        maxMoves = MAX_MOVES_OPTIONS[DEFAULT_MAX_MOVES_SPINNER_SELECTION]
-        maxMovesSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+        maxMovesPropertyTab =  findViewById(R.id.max_moves_tab)
+        maxMovesPropertyTab.setAdapterAndSpinnerOptions(MAX_MOVES_OPTIONS)
+        maxMovesPropertyTab.selectedItemPosition = DEFAULT_MAX_MOVES_SPINNER_SELECTION
+        maxMovesPropertyTab.setOnItemSelectedListener(object : OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val size = parent.getItemAtPosition(position) as Int
                 setMaxMovesTo(size)
@@ -86,7 +80,7 @@ class MainActivity : AppCompatActivity(), ChessTileSelectionListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Do nothing
             }
-        }
+        })
     }
 
     private fun setUpBoardView() {
